@@ -29,7 +29,6 @@
       line-height: 1.7;
     }
 
-    /* ── HEADER ── */
     header {
       background: linear-gradient(135deg, #1e2a4a 0%, #0f1117 100%);
       border-bottom: 1px solid var(--border);
@@ -64,7 +63,6 @@
       margin: 0 auto;
     }
 
-    /* ── NAV ── */
     nav {
       position: sticky;
       top: 0;
@@ -89,14 +87,12 @@
     }
     nav a:hover { color: var(--text); border-color: var(--accent); }
 
-    /* ── LAYOUT ── */
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 48px 24px;
     }
 
-    /* ── SECTIONS ── */
     section { margin-bottom: 64px; }
     section h2 {
       font-size: 1.6rem;
@@ -126,7 +122,6 @@
     }
     section p { color: var(--text-muted); margin-bottom: 12px; }
 
-    /* ── CARDS ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -144,7 +139,6 @@
     .card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
     .card p  { font-size: 0.88rem; }
 
-    /* ── TOPIC TABLE ── */
     .topic-table {
       width: 100%;
       border-collapse: collapse;
@@ -175,7 +169,6 @@
       font-size: 0.85rem;
     }
 
-    /* ── CODE BLOCKS ── */
     .code-block {
       position: relative;
       background: var(--code-bg);
@@ -220,7 +213,6 @@
       color: #e2e8f0;
     }
 
-    /* Syntax highlight simple */
     .kw  { color: #c792ea; }
     .fn  { color: #82aaff; }
     .st  { color: #c3e88d; }
@@ -228,7 +220,6 @@
     .nb  { color: #f78c6c; }
     .op  { color: #89ddff; }
 
-    /* ── STEPS ── */
     .steps { counter-reset: step; }
     .step {
       display: flex;
@@ -252,7 +243,6 @@
     .step-content h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
     .step-content p  { font-size: 0.88rem; }
 
-    /* ── ALERT ── */
     .alert {
       display: flex;
       gap: 12px;
@@ -268,7 +258,6 @@
     .alert-icon  { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
     .alert p     { margin: 0; color: var(--text); }
 
-    /* ── CHALLENGE ── */
     .challenge-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -298,7 +287,6 @@
     .challenge-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
     .challenge-card p  { font-size: 0.85rem; }
 
-    /* ── FOOTER ── */
     footer {
       text-align: center;
       padding: 32px 24px;
@@ -421,19 +409,19 @@
         </thead>
         <tbody>
           <tr>
-            <td><span class="mono">estacion/temperatura</span></td>
+            <td><span class="mono">estacion2/temperatura</span></td>
             <td>MXChip AZ3166</td>
             <td>Número decimal</td>
-            <td><span class="mono">19.4</span></td>
+            <td><span class="mono">23.6</span></td>
           </tr>
           <tr>
-            <td><span class="mono">estacion/humedad</span></td>
+            <td><span class="mono">estacion2/humedad</span></td>
             <td>MXChip AZ3166</td>
             <td>Número decimal</td>
-            <td><span class="mono">36.5</span></td>
+            <td><span class="mono">40.4</span></td>
           </tr>
           <tr>
-            <td><span class="mono">estacion/led</span></td>
+            <td><span class="mono">estacion2/led</span></td>
             <td>MXChip AZ3166</td>
             <td>Texto</td>
             <td><span class="mono">red / green / blue / off</span></td>
@@ -444,7 +432,7 @@
 
     <div class="alert alert-info">
       <span class="alert-icon">💡</span>
-      <p>Podés usar el wildcard <span style="font-family:monospace; color:#34d399">estacion/#</span> para suscribirte a temperatura, humedad y led de una sola vez, en lugar de suscribirte topic por topic.</p>
+      <p>Podés usar el wildcard <span style="font-family:monospace; color:#34d399">estacion2/#</span> para suscribirte a temperatura, humedad y led de una sola vez, en lugar de suscribirte topic por topic.</p>
     </div>
 
     <h3>¿Cómo verificar que llegan datos? — MQTT Explorer</h3>
@@ -487,9 +475,9 @@
       <pre>pip install paho-mqtt flet</pre>
     </div>
 
-    <div class="alert alert-ok">
-      <span class="alert-icon">✅</span>
-      <p>Si ya tenés Flet instalado de trabajos anteriores, solo necesitás agregar <code style="color:var(--accent2)">paho-mqtt</code>.</p>
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <p>Esta guía usa <strong>Flet 0.85+</strong> y <strong>paho-mqtt 2.x</strong>. Si tenés versiones anteriores, algunas APIs difieren. Verificá con <code style="color:var(--accent2)">pip show flet paho-mqtt</code>.</p>
     </div>
   </section>
 
@@ -507,33 +495,33 @@
       </div>
       <pre><span class="kw">import</span> paho.mqtt.client <span class="kw">as</span> mqtt
 
-<span class="cm"># Datos del broker</span>
 BROKER = <span class="st">"10.0.14.196"</span>
 PUERTO = <span class="nb">1883</span>
 
-<span class="cm"># Esta función se ejecuta cuando la conexión es exitosa</span>
-<span class="kw">def</span> <span class="fn">on_connect</span>(client, userdata, flags, rc):
-    <span class="kw">if</span> rc <span class="op">==</span> <span class="nb">0</span>:
+<span class="cm"># paho-mqtt 2.x requiere especificar la versión del callback API</span>
+<span class="kw">def</span> <span class="fn">on_connect</span>(client, userdata, flags, reason_code, properties):
+    <span class="kw">if</span> reason_code <span class="op">==</span> <span class="nb">0</span>:
         <span class="fn">print</span>(<span class="st">"Conectado al broker!"</span>)
-        <span class="cm"># Nos suscribimos a todos los topics de la estación</span>
-        client.subscribe(<span class="st">"estacion/#"</span>)
+        client.subscribe(<span class="st">"estacion2/#"</span>)
     <span class="kw">else</span>:
-        <span class="fn">print</span>(<span class="st">f"Error de conexión, código: </span>{rc}<span class="st">"</span>)
+        <span class="fn">print</span>(<span class="st">f"Error de conexión: {reason_code}"</span>)
 
-<span class="cm"># Esta función se ejecuta cada vez que llega un mensaje</span>
 <span class="kw">def</span> <span class="fn">on_message</span>(client, userdata, msg):
     topic   = msg.topic
     payload = msg.payload.decode(<span class="st">"utf-8"</span>)
     <span class="fn">print</span>(<span class="st">f"[{topic}] → {payload}"</span>)
 
-<span class="cm"># Crear cliente y asignar callbacks</span>
-client = mqtt.Client()
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
 client.on_message = on_message
 
-<span class="cm"># Conectar y mantener el loop activo</span>
 client.connect(BROKER, PUERTO)
 client.loop_forever()</pre>
+    </div>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <p>En paho-mqtt 2.x el callback <code style="color:var(--accent2)">on_connect</code> recibe <strong>5 parámetros</strong> (agrega <code style="color:var(--accent2)">reason_code</code> y <code style="color:var(--accent2)">properties</code>), y el cliente se crea con <code style="color:var(--accent2)">mqtt.CallbackAPIVersion.VERSION2</code>. La versión 1 está deprecada.</p>
     </div>
 
     <div class="alert alert-info">
@@ -547,68 +535,43 @@ client.loop_forever()</pre>
         <span class="lang-tag">salida esperada</span>
       </div>
       <pre>Conectado al broker!
-[estacion/temperatura] → 19.4
-[estacion/humedad] → 36.5
-[estacion/temperatura] → 19.5
-[estacion/humedad] → 36.4
+[estacion2/temperatura] → 23.6
+[estacion2/humedad] → 40.4
+[estacion2/temperatura] → 23.6
+[estacion2/humedad] → 40.4
 ...</pre>
-    </div>
-
-    <h3>Separar topic y valor</h3>
-    <p>El topic te dice <em>qué dato es</em> y el payload tiene <em>el valor</em>. Podés usar un diccionario para organizar los datos de cada estación:</p>
-
-    <div class="code-block">
-      <div class="code-header">
-        <span class="lang-tag">python — fragmento</span>
-        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-      </div>
-      <pre><span class="cm"># Diccionario para guardar el último valor de cada topic</span>
-datos = {
-    <span class="st">"estacion/temperatura"</span>: <span class="st">"--"</span>,
-    <span class="st">"estacion/humedad"</span>:     <span class="st">"--"</span>,
-}
-
-<span class="kw">def</span> <span class="fn">on_message</span>(client, userdata, msg):
-    topic   = msg.topic
-    payload = msg.payload.decode(<span class="st">"utf-8"</span>)
-
-    <span class="kw">if</span> topic <span class="kw">in</span> datos:
-        datos[topic] = payload
-        <span class="fn">print</span>(<span class="st">f"Actualizado: {topic} = {payload}"</span>)</pre>
     </div>
   </section>
 
   <!-- ── 6. SCADA CON FLET ── -->
   <section id="scada">
     <h2><span class="num">6</span> SCADA completo con Flet</h2>
-    <p>El desafío de integrar MQTT con Flet es que <strong>son dos loops en hilos distintos</strong>: el loop de MQTT corre en background y necesita actualizar la UI de Flet de forma segura. La clave es usar <code style="color:var(--accent2)">page.update()</code> desde el callback.</p>
+    <p>El desafío de integrar MQTT con Flet es que <strong>son dos loops en hilos distintos</strong>: el loop de MQTT corre en background y necesita actualizar la UI de Flet de forma segura. La solución es usar <code style="color:var(--accent2)">page.run_task()</code> con una corrutina async.</p>
 
     <div class="alert alert-warn">
       <span class="alert-icon">⚠️</span>
-      <p>No modifiques controles de Flet directamente desde el callback de MQTT sin llamar a <code style="color:var(--accent2)">page.update()</code> al final — la UI no se va a refrescar.</p>
+      <p>En Flet 0.85+ llamar <code style="color:var(--accent2)">page.update()</code> directamente desde un hilo externo (como el callback de MQTT) no actualiza la UI. Hay que usar <code style="color:var(--accent2)">page.run_task()</code> pasándole una función <code style="color:var(--accent2)">async</code>.</p>
     </div>
 
     <h3>Código base del SCADA</h3>
 
     <div class="code-block">
       <div class="code-header">
-        <span class="lang-tag">python — scada.py</span>
+        <span class="lang-tag">python — main.py</span>
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
       <pre><span class="kw">import</span> flet <span class="kw">as</span> ft
 <span class="kw">import</span> paho.mqtt.client <span class="kw">as</span> mqtt
 
-<span class="cm"># ── Configuración ──────────────────────────────────────────</span>
 BROKER = <span class="st">"10.0.14.196"</span>
 PUERTO = <span class="nb">1883</span>
 
-<span class="cm"># ── App principal ───────────────────────────────────────────</span>
-<span class="kw">def</span> <span class="fn">main</span>(page: ft.Page):
-    page.title    = <span class="st">"SCADA — Estación Meteorológica"</span>
-    page.bgcolor  = <span class="st">"#0f1117"</span>
-    page.padding  = <span class="nb">30</span>
+<span class="cm"># main debe ser async para poder usar page.run_task()</span>
+<span class="kw">async def</span> <span class="fn">main</span>(page: ft.Page):
+    page.title   = <span class="st">"SCADA — Estación Meteorológica"</span>
+    page.bgcolor = <span class="st">"#0f1117"</span>
+    page.padding = <span class="nb">30</span>
 
-    <span class="cm"># ── Controles de la UI ─────────────────────────────────────</span>
     lbl_temp   = ft.Text(<span class="st">"-- °C"</span>, size=<span class="nb">48</span>, weight=ft.FontWeight.BOLD, color=<span class="st">"#4f8ef7"</span>)
     lbl_hum    = ft.Text(<span class="st">"-- %"</span>,  size=<span class="nb">48</span>, weight=ft.FontWeight.BOLD, color=<span class="st">"#34d399"</span>)
     lbl_estado = ft.Text(<span class="st">"Conectando..."</span>, color=<span class="st">"#94a3b8"</span>, size=<span class="nb">13</span>)
@@ -626,41 +589,77 @@ PUERTO = <span class="nb">1883</span>
             bgcolor=<span class="st">"#1a1d27"</span>,
             border_radius=<span class="nb">12</span>,
             padding=<span class="nb">24</span>,
-            border=ft.border.all(<span class="nb">1</span>, <span class="st">"#2d3348"</span>),
+            border=ft.Border.all(<span class="nb">1</span>, <span class="st">"#2d3348"</span>),  <span class="cm"># ft.Border (mayúscula) en Flet 0.85+</span>
         ),
     )
 
-    <span class="cm"># ── Callbacks MQTT ─────────────────────────────────────────</span>
-    <span class="kw">def</span> <span class="fn">on_connect</span>(client, userdata, flags, rc):
-        <span class="kw">if</span> rc <span class="op">==</span> <span class="nb">0</span>:
-            lbl_estado.value = <span class="st">"✅ Conectado al broker MQTT"</span>
-            client.subscribe(<span class="st">"estacion/#"</span>)
-        <span class="kw">else</span>:
-            lbl_estado.value = <span class="st">f"❌ Error de conexión (código {rc})"</span>
+    <span class="cm"># Función async que page.run_task() puede ejecutar de forma segura</span>
+    <span class="kw">async def</span> <span class="fn">do_update</span>():
         page.update()
+
+    <span class="kw">def</span> <span class="fn">on_connect</span>(client, userdata, flags, reason_code, properties):
+        <span class="kw">if</span> reason_code <span class="op">==</span> <span class="nb">0</span>:
+            lbl_estado.value = <span class="st">"✅ Conectado al broker MQTT"</span>
+            client.subscribe(<span class="st">"estacion2/#"</span>)
+        <span class="kw">else</span>:
+            lbl_estado.value = <span class="st">f"❌ Error de conexión (código {reason_code})"</span>
+        page.run_task(do_update)
 
     <span class="kw">def</span> <span class="fn">on_message</span>(client, userdata, msg):
         topic   = msg.topic
         payload = msg.payload.decode(<span class="st">"utf-8"</span>)
 
-        <span class="kw">if</span>   topic <span class="op">==</span> <span class="st">"estacion/temperatura"</span>: lbl_temp.value = <span class="st">f"{payload} °C"</span>
-        <span class="kw">elif</span> topic <span class="op">==</span> <span class="st">"estacion/humedad"</span>:      lbl_hum.value  = <span class="st">f"{payload} %"</span>
+        <span class="kw">if</span>   topic <span class="op">==</span> <span class="st">"estacion2/temperatura"</span>: lbl_temp.value = <span class="st">f"{payload} °C"</span>
+        <span class="kw">elif</span> topic <span class="op">==</span> <span class="st">"estacion2/humedad"</span>:     lbl_hum.value  = <span class="st">f"{payload} %"</span>
 
-        page.update()  <span class="cm"># ← imprescindible para refrescar la UI</span>
+        page.run_task(do_update)  <span class="cm"># ← seguro desde hilos externos</span>
 
-    <span class="cm"># ── Iniciar cliente MQTT en background ─────────────────────</span>
-    client = mqtt.Client()
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(BROKER, PUERTO)
-    client.loop_start()  <span class="cm"># loop_start() corre en un hilo separado</span>
+    client.loop_start()
 
-ft.app(target=main)</pre>
+ft.run(main)  <span class="cm"># ft.run() reemplaza a ft.app() en Flet 0.80+</span></pre>
     </div>
 
     <div class="alert alert-info">
       <span class="alert-icon">💡</span>
-      <p><strong>loop_start()</strong> vs <strong>loop_forever()</strong>: usamos <code style="color:var(--accent2)">loop_start()</code> porque corre MQTT en un hilo separado y deja que Flet tome el control del hilo principal. Con <code style="color:var(--accent2)">loop_forever()</code> la UI nunca arrancaría.</p>
+      <p><strong>¿Por qué async?</strong> <code style="color:var(--accent2)">page.run_task()</code> requiere una corrutina (función <code style="color:var(--accent2)">async def</code>). Internamente usa <code style="color:var(--accent2)">asyncio.run_coroutine_threadsafe()</code> para ejecutarla en el event loop de Flet de forma segura desde el hilo de MQTT.</p>
+    </div>
+
+    <h3>Cambios importantes respecto a versiones anteriores</h3>
+    <div class="card">
+      <table class="topic-table">
+        <thead>
+          <tr>
+            <th>API antigua (deprecada)</th>
+            <th>API correcta (Flet 0.85 / paho 2.x)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="mono">ft.app(target=main)</span></td>
+            <td><span class="mono">ft.run(main)</span></td>
+          </tr>
+          <tr>
+            <td><span class="mono">ft.border.all(1, "#color")</span></td>
+            <td><span class="mono">ft.Border.all(1, "#color")</span></td>
+          </tr>
+          <tr>
+            <td><span class="mono">mqtt.Client()</span></td>
+            <td><span class="mono">mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)</span></td>
+          </tr>
+          <tr>
+            <td><span class="mono">on_connect(client, userdata, flags, rc)</span></td>
+            <td><span class="mono">on_connect(client, userdata, flags, reason_code, properties)</span></td>
+          </tr>
+          <tr>
+            <td><span class="mono">page.update() desde hilo</span></td>
+            <td><span class="mono">page.run_task(corrutina_async)</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <h3>Publicar al LED desde el SCADA</h3>
@@ -673,7 +672,7 @@ ft.app(target=main)</pre>
       </div>
       <pre><span class="kw">def</span> <span class="fn">set_led</span>(color):
     <span class="cm"># color: "red", "green", "blue", "white", "yellow", "off"</span>
-    client.publish(<span class="st">"estacion/led"</span>, color)
+    client.publish(<span class="st">"estacion2/led"</span>, color)
 
 <span class="cm"># Ejemplo: botones en la UI</span>
 btn_rojo  = ft.ElevatedButton(<span class="st">"🔴 Rojo"</span>,   on_click=<span class="kw">lambda</span> _: <span class="fn">set_led</span>(<span class="st">"red"</span>),   bgcolor=<span class="st">"#f87171"</span>, color=<span class="st">"white"</span>)
